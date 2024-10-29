@@ -1,47 +1,38 @@
 package com.example.team4application
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.view.View
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.team4application.ui.theme.Team4ApplicationTheme
 
 class MainActivity : ComponentActivity() {
+    private lateinit var vibrator: Vibrator
+
+    private val timings = longArrayOf(0, 100, 100, 100, 100, 100, 100, 100)
+    private val amplitudes = intArrayOf(0, 255, 0, 255, 0, 255, 0, 255)
+    private val repeatIndex = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {
-            Team4ApplicationTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+        setContentView(R.layout.activity_main)
+
+        vibrator = getSystemService(Vibrator::class.java)
+    }
+
+    fun moveToMenu(view: View) {
+        val intent = Intent(this@MainActivity, VibrateMenuActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Vibrate the device
+    fun vibrate(view: View) {
+        if (::vibrator.isInitialized && vibrator.hasVibrator()) {
+            vibrator.vibrate(VibrationEffect.createWaveform(timings, amplitudes, repeatIndex))
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Team4ApplicationTheme {
-        Greeting("Android")
-    }
-}

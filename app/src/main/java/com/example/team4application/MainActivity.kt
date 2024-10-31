@@ -37,6 +37,7 @@ class MainActivity : ComponentActivity() {
 
     // turn on the microphone
     fun onMicrophoneClick(view: View) {
+        // ここにマイクをオンにするコードを追加します
     }
 }
 

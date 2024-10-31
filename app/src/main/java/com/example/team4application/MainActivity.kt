@@ -34,5 +34,9 @@ class MainActivity : ComponentActivity() {
             vibrator.vibrate(VibrationEffect.createWaveform(timings, amplitudes, repeatIndex))
         }
     }
+
+    // turn on the microphone
+    fun onMicrophoneClick(view: View) {
+    }
 }
 

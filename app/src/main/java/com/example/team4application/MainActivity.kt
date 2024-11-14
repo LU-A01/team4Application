@@ -8,6 +8,7 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
@@ -16,6 +17,7 @@ import java.util.*
 class MainActivity : ComponentActivity() {
     private lateinit var vibrator: Vibrator
     private lateinit var speechRecognizer: SpeechRecognizer
+    private lateinit var rmsTextView: TextView
 
     private val timings = longArrayOf(0, 100, 100, 100, 100, 100, 100, 100)
     private val amplitudes = intArrayOf(0, 255, 0, 255, 0, 255, 0, 255)
@@ -28,6 +30,7 @@ class MainActivity : ComponentActivity() {
 
         vibrator = getSystemService(Vibrator::class.java)
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this) // SpeechRecognizerの初期化
+        rmsTextView = findViewById(R.id.rmsTextView) // TextViewの初期化
     }
 
     // 画面遷移
@@ -51,11 +54,15 @@ class MainActivity : ComponentActivity() {
             putExtra(RecognizerIntent.EXTRA_PROMPT, "話してください")
         }
 
-        // 音声認識の開始
+        // 音声認識のリスナー設定
         speechRecognizer.setRecognitionListener(object : RecognitionListener {
             override fun onReadyForSpeech(params: Bundle?) {}
             override fun onBeginningOfSpeech() {}
-            override fun onRmsChanged(rmsdB: Float) {}
+            override fun onRmsChanged(rmsdB: Float) {
+                // 音量レベルを表示
+                rmsTextView.text = "音量レベル: $rmsdB"
+            }
+
             override fun onBufferReceived(buffer: ByteArray?) {}
             override fun onEndOfSpeech() {}
 
@@ -81,8 +88,4 @@ class MainActivity : ComponentActivity() {
         super.onDestroy()
         speechRecognizer.destroy() // リソースの解放
     }
-}
-
-private fun SpeechRecognizer.setRecognitionListener(any: Any) {
-
 }

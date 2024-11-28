@@ -1,11 +1,12 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.chaquo.python")
 }
 
 android {
     namespace = "com.example.team4application"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.team4application"
@@ -17,6 +18,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+
+        ndk {
+            // On Apple silicon, you can omit x86_64.
+            abiFilters += listOf("arm64-v8a", "x86_64")
         }
     }
 
@@ -45,6 +51,22 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+}
+
+chaquopy {
+    defaultConfig {
+        buildPython("/opt/anaconda3/bin/python3")
+
+        pip {
+            // numpyをインストールする
+            install("numpy")
+            // pandasをインストールする
+            install("pandas")
+            /* requirements.txtを指定することも可能
+            install("-r", "requirements.txt")
+            */
         }
     }
 }

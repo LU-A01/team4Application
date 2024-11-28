@@ -44,6 +44,18 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    // 画面遷移
+    fun moveToMenu(view: View) {
+        val intent = Intent(this@MainActivity, VibrateMenuActivity::class.java)
+        startActivity(intent)
+    }
+
+    // デバイスを振動させる
+    fun vibrate(view: View) {
+        if (::vibrator.isInitialized && vibrator.hasVibrator()) {
+            vibrator.vibrate(VibrationEffect.createWaveform(timings, amplitudes, repeatIndex))
+        }
+    }
 
     private fun startSpeechRecognition() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {

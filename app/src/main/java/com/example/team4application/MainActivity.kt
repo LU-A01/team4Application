@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
     // 画面遷移
     fun moveToMenu(view: View) {
         val intent = Intent(this@MainActivity, VibrateMenuActivity::class.java)
@@ -51,7 +52,7 @@ class MainActivity : ComponentActivity() {
     }
 
     // デバイスを振動させる
-    fun vibrate(view: View) {
+    fun vibrate() {
         if (::vibrator.isInitialized && vibrator.hasVibrator()) {
             vibrator.vibrate(VibrationEffect.createWaveform(timings, amplitudes, repeatIndex))
         }
@@ -72,6 +73,12 @@ class MainActivity : ComponentActivity() {
             override fun onRmsChanged(rmsdB: Float) {
                 val adjustedRms = (rmsdB.coerceAtLeast(0f) * 10).toInt()
                 rmsTextView.text = "音量レベル (dB 相当): $adjustedRms"
+
+                // 音量レベルが100dBを超えた場合に振動
+                if (adjustedRms >= 100) {
+                    Toast.makeText(this@MainActivity, "100dB超え検知！振動します", Toast.LENGTH_SHORT).show()
+                    vibrate()
+                }
             }
             override fun onBufferReceived(buffer: ByteArray?) {}
             override fun onEndOfSpeech() {
@@ -94,8 +101,6 @@ class MainActivity : ComponentActivity() {
         speechRecognizer.startListening(intent)
         Toast.makeText(this, "音声認識を開始しました", Toast.LENGTH_SHORT).show()
     }
-
-
 
     // 音声認識を停止
     private fun stopSpeechRecognition() {

@@ -1,33 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/blue_signal"
+    tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/editTextText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:inputType="text"
-        android:text="@string/edit_message"
-        android:visibility="visible" />
+    <!-- 入力用 EditText -->
+<EditText
+android:id="@+id/editTextText"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:hint="@string/edit_message"
+android:inputType="text" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="moveToMenu"
-        android:text="@string/button_menu" />
+    <!-- メニューに移動するボタン -->
+<Button
+android:id="@+id/button2"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginTop="16dp"
+android:onClick="moveToMenu"
+android:text="@string/button_menu" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="vibrate"
-        android:text="@string/button_vibrate"
-        android:visibility="visible" />
+    <!-- デバイスを振動させるボタン -->
+<Button
+android:id="@+id/button"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginTop="16dp"
+android:onClick="vibrate"
+android:text="@string/button_vibrate" />
 
-</LinearLayout>
+    <!-- 音声認識を開始/停止するスイッチ -->
+<Switch
+android:id="@+id/toggleSwitch"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginTop="16dp"
+android:text="音声認識を開始" />
+
+    <!-- 音量レベルを表示するテキストビュー -->
+<TextView
+android:id="@+id/rmsTextView"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginTop="16dp"
+android:text="音量レベル: 0"
+android:textSize="18sp"
+android:gravity="center_horizontal" />
+
+    </LinearLayout>

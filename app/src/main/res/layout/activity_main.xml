@@ -7,50 +7,72 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@drawable/blue_signal"
-    tools:context=".MainActivity">
-
-    <!-- 入力用 EditText -->
-<EditText
-android:id="@+id/editTextText"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:hint="@string/edit_message"
-android:inputType="text" />
-
-    <!-- メニューに移動するボタン -->
-<Button
-android:id="@+id/button2"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_marginTop="16dp"
-android:onClick="moveToMenu"
-android:text="@string/button_menu" />
-
-    <!-- デバイスを振動させるボタン -->
-<Button
-android:id="@+id/button"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_marginTop="16dp"
-android:onClick="vibrate"
-android:text="@string/button_vibrate" />
-
-    <!-- 音声認識を開始/停止するスイッチ -->
-<Switch
-android:id="@+id/toggleSwitch"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_marginTop="16dp"
-android:text="音声認識を開始" />
+    tools:context=".MainActivity2">
 
     <!-- 音量レベルを表示するテキストビュー -->
-<TextView
-android:id="@+id/rmsTextView"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_marginTop="16dp"
-android:text="音量レベル: 0"
-android:textSize="18sp"
-android:gravity="center_horizontal" />
+    <TextView
+        android:id="@+id/rmsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="音量レベル: 0"
+        android:textSize="18sp"
+        android:textColor="#ffffff"
+        android:gravity="center_horizontal" />
 
-    </LinearLayout>
+    <!-- バイト合計を表示するテキストビュー -->
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="録音データのバイト合計: 0"
+        android:textSize="18sp"
+        android:textColor="#ffffff"
+        android:gravity="center_horizontal" />
+
+    <!-- 音声録音を開始/停止するスイッチ -->
+    <Switch
+        android:id="@+id/toggleSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="録音を開始"
+        android:textSize="16sp"
+        android:padding="8dp"
+        android:gravity="center_vertical"
+        android:textColor="#ffffff" />
+
+    <!-- デバイスを振動させるボタン -->
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:onClick="vibrate"
+        android:text="デバイスを振動させる"
+        android:textSize="16sp"
+        android:backgroundTint="#1e90ff"
+        android:textColor="#ffffff" />
+
+    <!-- メニューに移動するボタン -->
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:onClick="moveToMenu"
+        android:text="メニューに移動"
+        android:textSize="16sp"
+        android:backgroundTint="#ff7f50"
+        android:textColor="#ffffff" />
+
+    <!-- テキスト入力フィールド -->
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ここに入力してください"
+        android:inputType="text"
+        android:layout_marginBottom="16dp" />
+</LinearLayout>

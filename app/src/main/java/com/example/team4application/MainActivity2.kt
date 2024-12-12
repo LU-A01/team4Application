@@ -1,5 +1,6 @@
 package com.example.team4application
 
+
 import android.content.Intent
 import android.media.AudioFormat
 import android.media.AudioRecord
@@ -13,12 +14,18 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import java.util.*
+
 
 class MainActivity2 : ComponentActivity() {
     private lateinit var vibrator: Vibrator
     private lateinit var rmsTextView: TextView
     private lateinit var toggleSwitch: Switch
+    private lateinit var resultTextView: TextView // 結果表示用
 
     private val SAMPLE_RATE = 16000 // サンプリングレート
     private val CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO
@@ -28,17 +35,20 @@ class MainActivity2 : ComponentActivity() {
     private val timings = longArrayOf(0, 100, 100, 100, 100, 100, 100, 100)
     private val amplitudes = intArrayOf(0, 255, 0, 255, 0, 255, 0, 255)
     private val repeatIndex = -1
+    private val PERMISSION_REQUEST_CODE = 1
 
     private var isRecording = false // 録音状態を管理
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         setContentView(R.layout.activity_main)
 
         vibrator = getSystemService(Vibrator::class.java)
         rmsTextView = findViewById(R.id.rmsTextView) // TextViewの初期化
         toggleSwitch = findViewById(R.id.toggleSwitch) // Switchの初期化
+        resultTextView = findViewById(R.id.resultTextView) // 結果表示用
+
 
         // トグルボタンの状態変更リスナー
         toggleSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -49,19 +59,44 @@ class MainActivity2 : ComponentActivity() {
             }
         }
     }
+    private fun checkAudioPermission(): Boolean {
+        // 権限が既に許可されているか確認
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestAudioPermission() {
+        // 権限をリクエスト
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.RECORD_AUDIO),
+            PERMISSION_REQUEST_CODE
+        )
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "マイク権限が許可されました", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "マイク権限が必要です", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     // 録音を開始
     private fun startRecording() {
         isRecording = true
 
         Thread {
-            val audioRecord = AudioRecord(
-                MediaRecorder.AudioSource.MIC,
-                SAMPLE_RATE,
-                CHANNEL_CONFIG,
-                AUDIO_FORMAT,
-                BUFFER_SIZE
-            )
+            if (checkAudioPermission()) {
+                val audioRecord = AudioRecord(
+                    MediaRecorder.AudioSource.MIC,
+                    SAMPLE_RATE,
+                    CHANNEL_CONFIG,
+                    AUDIO_FORMAT,
+                    BUFFER_SIZE
+                )
 
             val buffer = ByteArray(BUFFER_SIZE)
             val audioData = ByteArray(SAMPLE_RATE * 2) // 1秒分のデータ用バッファ（16bit -> 2bytes）
@@ -84,9 +119,6 @@ class MainActivity2 : ComponentActivity() {
 
                 // 音量レベルが一定以上なら振動
                 if (rms >= 100) {
-                    runOnUiThread {
-                        Toast.makeText(this, "100dB超え検知！振動します", Toast.LENGTH_SHORT).show()
-                    }
                     vibrate()
                 }
             }
@@ -96,6 +128,12 @@ class MainActivity2 : ComponentActivity() {
 
             // 最終データを処理
             processAudioData(audioData)
+            } else {
+                runOnUiThread {
+                    Toast.makeText(this, "マイク権限がありません", Toast.LENGTH_SHORT).show()
+                    requestAudioPermission() // 権限リクエスト
+                }
+            }
         }.start()
 
         Toast.makeText(this, "録音を開始しました", Toast.LENGTH_SHORT).show()
@@ -109,8 +147,21 @@ class MainActivity2 : ComponentActivity() {
 
     // 音声データを処理する関数
     private fun processAudioData(audioData: ByteArray) {
-        // Pythonモジュールや分類処理に渡す
-        println("録音データの長さ: ${audioData.size} bytes")
+        // バイト値の合計を計算
+        val byteSum = calculateByteSum(audioData)
+
+        // 合計値をTextViewに表示
+        val resultText = "録音データのバイト合計: $byteSum"
+        resultTextView.text = resultText
+    }
+
+    // バイト値の合計を計算する関数
+    private fun calculateByteSum(audioData: ByteArray): Long {
+        var sum: Long = 0
+        for (byte in audioData) {
+            sum += byte.toUByte().toLong() // 符号なしのバイト値を加算
+        }
+        return sum
     }
 
     // 音量レベル（RMS）を計算する

@@ -13,12 +13,10 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.enableEdgeToEdge
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import java.util.*
 
 
 class MainActivity2 : ComponentActivity() {
@@ -183,7 +181,7 @@ class MainActivity2 : ComponentActivity() {
 
     // 画面遷移
     fun moveToMenu(view: View) {
-        val intent = Intent(this@MainActivity2, VibrateMenuActivity::class.java)
+        val intent = Intent(this@MainActivity2, SettingActivity::class.java)
         startActivity(intent)
     }
 }

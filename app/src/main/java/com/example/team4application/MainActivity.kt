@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
 
     // 画面遷移
     fun moveToMenu(view: View) {
-        val intent = Intent(this@MainActivity, VibrateMenuActivity::class.java)
+        val intent = Intent(this@MainActivity, SettingActivity2::class.java)
         startActivity(intent)
     }
 

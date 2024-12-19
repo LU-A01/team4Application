@@ -1,10 +1,11 @@
+import android.app.Activity
+import android.app.AlertDialog
 import android.os.Bundle
+import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 
-class SettingActivity : AppCompatActivity() {
+class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

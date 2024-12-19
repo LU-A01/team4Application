@@ -46,5 +46,25 @@
             color: 1, 1, 1, 1
             on_press: root.dismiss()
 
+        <Popup>:
+    title: "Help"
+    size_hint: None, None
+    size: 400, 300
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 15
+
+        Label:
+            text: "Help information"
+            font_size: 16
+            color: 0, 0, 0, 1
+
+        Button:
+            text: "Close"
+            background_color: 0.2, 0.6, 0.2, 1
+            color: 1, 1, 1, 1
+            on_press: root.dismiss()
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

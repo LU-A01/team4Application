@@ -3,4 +3,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <Popup>:
+    title: "Settings"
+    size_hint: None, None
+    size: 400, 400
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 15
+        spacing: 10
+
+        Label:
+            id: intensity_label
+            text: "Intensity: 50"
+            font_size: 16
+            color: 0, 0, 0, 1
+
+        Slider:
+            id: intensity_slider
+            min: 0
+            max: 100
+            value: 50
+            on_value: intensity_label.text = f"Intensity: {int(self.value)}"
+
+        Label:
+            id: frequency_label
+            text: "Frequency: 2"
+            font_size: 16
+            color: 0, 0, 0, 1
+
+        Slider:
+            id: frequency_slider
+            min: 0
+            max: 5
+            value: 2
+            on_value: frequency_label.text = f"Frequency: {int(self.value)}"
+
+        Button:
+            text: "Close"
+            background_color: 0.2, 0.6, 0.2, 1
+            color: 1, 1, 1, 1
+            on_press: root.dismiss()
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

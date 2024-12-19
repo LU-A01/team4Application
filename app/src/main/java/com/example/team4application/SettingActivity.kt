@@ -1,18 +1,23 @@
+package com.example.team4application
+
+
 import android.app.Activity
 import android.app.AlertDialog
 import android.os.Bundle
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.activity.ComponentActivity
+import com.example.team4application.R
 
-class MainActivity : Activity() {
+class SettingActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // Button to open settings dialog
-        val openSettingsButton = findViewById<Button>(R.id.open_settings_button)
+        val openSettingsButton = findViewById<Button>(R.id.button2)
         openSettingsButton.setOnClickListener {
             showSettingsDialog()
         }
@@ -20,7 +25,7 @@ class MainActivity : Activity() {
 
     private fun showSettingsDialog() {
         // Inflate the dialog layout
-        val dialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
+        val dialogView = layoutInflater.inflate(R.layout.activity_setting, null)
 
         // Find views in the custom dialog layout
         val intensityLabel = dialogView.findViewById<TextView>(R.id.intensity_label)

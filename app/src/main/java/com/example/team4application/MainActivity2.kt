@@ -18,7 +18,6 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-
 class MainActivity2 : ComponentActivity() {
     private lateinit var vibrator: Vibrator
     private lateinit var rmsTextView: TextView
